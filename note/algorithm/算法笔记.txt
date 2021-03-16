@@ -1,0 +1,143 @@
+书：
+    《算法小抄》
+
+链表思维，唯一指向性
+链表的头节点有可能被改变，才考虑使用虚头
+141
+142
+202
+206 
+92
+25
+61
+24
+19
+83
+82 可以把重复值存下来
+
+
+
+function getNext(num) {
+	var count = 0;
+
+	while(num) {
+		var num1 = num % 10;
+		num = (num - num1) / 10;
+		count += num1 ** 2;
+	}
+
+	return count;
+}  
+
+
+var obj = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: null
+    }
+  }
+}
+
+function reverse(head) {
+  if (!head || !head.next) return head;
+  console.log(JSON.parse(JSON.stringify(head)))
+  var p = reverse(head.next);  // head=2; p=3
+
+  console.log(JSON.parse(JSON.stringify(p)))
+  // 这一次操作导致当前节点指向下一个节点，下一个节点又指回了当前节点，导致当前节点总是成环，因此在下面断开
+  head.next.next = head;
+  head.next = null;
+  return p;
+}
+
+reverse(obj)
+
+head.next = null;
+reverse().next = head;
+
+
+function reverse(head) {
+	if(!head || !head.next) return head;
+  console.log(head);
+  var tail = head.next; p = reverse(head.next);
+  head.next = tail.next;
+  tail.next = head;
+  console.log(JSON.parse(JSON.stringify(p)))
+  return p;
+}
+
+
+
+2   2,3,4
+3   3,4
+4   4
+
+
+
+彩蛋
+1，10万以内快乐数的总和
+
+function ListNode(value, next) {
+    this.value = value;
+    this.next = next || null;
+}
+
+function getNext(num) {
+	var count = 0;
+
+	while(num) {
+		var num1 = num % 10;
+		num = (num - num1) / 10;
+		count += num1 ** 2;
+	}
+
+	return count;
+}  
+
+function _isHappy(num) {
+    var ary = [];
+    while(num !== 1) {
+        num = getNext(num);
+        if (ary.indexOf(num) === -1) {
+            ary.push(num);
+        } else {
+            break;
+        }
+    }
+
+    return num === 1;
+}
+
+function isHappy(num) {
+    var p = num; q = num;
+    do {
+        p = getNext(p);
+        q = getNext(getNext(q));
+        if ( q === p) break;
+    } while(p !== 1 && q !== p)
+
+    return q === 1;
+}
+
+function fn() {
+    var num = 100000;
+    var happyList = 0;
+
+    for (var i = 0; i <= 100000; i++) {
+        var isHappyNum = isHappy(i);
+        if (isHappyNum) {
+            happyList += i;
+        }
+    }
+
+    return happyList
+}
+
+
+
+普通队列头部出队，尾部入队
+假溢出：队列未满，只是因为尾指针指向队列末尾，而导致看起来溢出
+循环队列：队列如果满了，把尾指针指向队列头部，解决假溢出的问题
